@@ -5,12 +5,20 @@ using UnityEngine;
 public class Drag : MonoBehaviour {
 
     //public int dragForce = 50;    -Currently not needed
-    public float MAX_VELOCITY = 100;
+    [SerializeField] private float maxVelocity = 100;
+    [SerializeField] private float dragSpeedMultiplier = 2;
 
     private Vector2 lastMousePos;
     private bool hold = false;
     private Transform draggingObject;
-    
+    private Collider2D col;
+
+    void Awake() {
+        col = GetComponent<Collider2D>();
+        GameObject player = GameObject.Find("Player");
+        Physics2D.IgnoreCollision(col, player.GetComponent<Collider2D>()); // Tring to ignore collision for player, doesn't work for some reason
+    }
+
 
     void Update() {
         Vector3 temp = Input.mousePosition;
@@ -21,16 +29,16 @@ public class Drag : MonoBehaviour {
             pos.z = 0;
             transform.position = pos;
             if (draggingObject != null) {
-                Vector3 velocity = (pos - draggingObject.position) * 5;
-                if (velocity.x > MAX_VELOCITY) {
-                    velocity.x = MAX_VELOCITY;
-                } else if (velocity.x < -MAX_VELOCITY) {
-                    velocity.x = -MAX_VELOCITY;
-                } else if (velocity.y > MAX_VELOCITY) {
-                    velocity.y = MAX_VELOCITY;
-                } else if (velocity.y < -MAX_VELOCITY) {
-                    velocity.y = -MAX_VELOCITY;
-                }
+                Vector3 velocity = (pos - draggingObject.position) * dragSpeedMultiplier;
+                //if (velocity.x > MAX_VELOCITY) {
+                //    velocity.x = MAX_VELOCITY;
+                //} else if (velocity.x < -MAX_VELOCITY) {
+                //    velocity.x = -MAX_VELOCITY;
+                //} else if (velocity.y > MAX_VELOCITY) {
+                //    velocity.y = MAX_VELOCITY;
+                //} else if (velocity.y < -MAX_VELOCITY) {
+                //    velocity.y = -MAX_VELOCITY;
+                //}
                 draggingObject.GetComponent<Rigidbody2D>().velocity = velocity;
                 // draggingObject.position = pos;   -Removed as dragging this way feels unnatural
                 // draggingObject.GetComponent<Rigidbody2D>().AddForceAtPosition((mousePos - lastMousePos) * dragForce, new Vector2(pos.x, pos.y), ForceMode2D.Force);  -Removed as the additional force acted weirdly
