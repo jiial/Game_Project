@@ -427,8 +427,8 @@ MonoBehaviour:
   - {fileID: 1714636317}
   - {fileID: 2135369697}
   m_Bounds:
-    m_Center: {x: -5.526328, y: 0.3954115, z: 0}
-    m_Extent: {x: 6.850854, y: 1.8397233, z: 0}
+    m_Center: {x: -0.0011925697, y: -5.919826, z: 0}
+    m_Extent: {x: 1.4837865, y: 6.921621, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
 --- !u!1 &383263980
@@ -827,7 +827,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalSpeed: 15
   verticalSpeed: 20
-  drawSword: {fileID: 7400000, guid: e2f21a358e397eb4c909f17862d21b12, type: 2}
   facingForward: 1
   currentStyle: 0
 --- !u!95 &648538939
@@ -918,7 +917,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 612b0e7fde679934bbfd6323e1cab498, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

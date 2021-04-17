@@ -18,8 +18,8 @@ public class Player : MonoBehaviour {
 
     private bool drawingSword = false;
     private bool sheatingSword = false;
-    private int updatesSinceSwitching = 0;
-    private int combatSwitchCooldown = 150;
+    private float updatesSinceSwitching = 0;
+    private float combatSwitchCooldown = 1f;
 
     private Animator animator;
 
@@ -64,7 +64,7 @@ public class Player : MonoBehaviour {
 
         // Finish switching to telekinesis with cooldown
         if (sheatingSword) {
-            updatesSinceSwitching++;
+            updatesSinceSwitching += Time.deltaTime;
             if (updatesSinceSwitching >= combatSwitchCooldown) {
                 currentStyle = CombatStyle.TELEKINESIS;
                 GameObject.Find("DragPoint").GetComponent<Drag>().enabled = true;
@@ -75,7 +75,7 @@ public class Player : MonoBehaviour {
 
         // Finish switching to melee with cooldown
         if (drawingSword) {
-            updatesSinceSwitching++;
+            updatesSinceSwitching += Time.deltaTime;
             if (updatesSinceSwitching >= combatSwitchCooldown) {
                 updatesSinceSwitching = 0;
                 drawingSword = false;
