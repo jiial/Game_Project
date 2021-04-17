@@ -62,8 +62,13 @@ public class Player : MonoBehaviour {
             SwitchCombatStyle();
         }
 
-        // Finish switching to telekinesis with cooldown
-        if (sheatingSword) {
+        // Check if we need to attack
+        if (Input.GetMouseButtonDown(0) && currentStyle.Equals(CombatStyle.MELEE) && !sheatingSword) {
+            Attack();
+        }
+
+            // Finish switching to telekinesis with cooldown
+            if (sheatingSword) {
             updatesSinceSwitching += Time.deltaTime;
             if (updatesSinceSwitching >= combatSwitchCooldown) {
                 currentStyle = CombatStyle.TELEKINESIS;
@@ -92,6 +97,10 @@ public class Player : MonoBehaviour {
         body.velocity = new Vector2(body.velocity.x, verticalSpeed);
         grounded = false;
         animator.SetBool("isJumping", true);
+    }
+
+    private void Attack() {
+        animator.Play("Attack");
     }
 
     private void SwitchCombatStyle() {
