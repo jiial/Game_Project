@@ -1684,14 +1684,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   patrollingDistance: 10
-  observingDistance: 5
+  observingDistance: 20
   attackDistance: 5
-  dragDamageMultiplier: 5
+  dragDamageMultiplier: 2
   dragTargetDamageMultiplier: 0.1
   movementSpeed: 3
+  chasingSpeed: 4
   maxHealth: 100
   knockbackDuration: 1
   dyingDuration: 1
+  attackDuration: 1
   knockbackSpeed: {x: 5, y: 0}
 --- !u!1 &1907049790
 GameObject:

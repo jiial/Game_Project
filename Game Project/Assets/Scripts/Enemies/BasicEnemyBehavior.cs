@@ -20,21 +20,25 @@ public class BasicEnemyBehavior : MonoBehaviour {
     [SerializeField] private float dragTargetDamageMultiplier; // Used when enemy gets hit by another object
 
     [SerializeField] private float movementSpeed;
+    [SerializeField] private float chasingSpeed;
     [SerializeField] private float maxHealth;
     [SerializeField] private float knockbackDuration;
     [SerializeField] private float dyingDuration;
+    [SerializeField] private float attackDuration;
     [SerializeField] private Vector2 knockbackSpeed;
 
     private Vector2 initialPos;
 
     private Vector2 movement;
     private Rigidbody2D rb;
-    private Player player;
+    private Player playerScript;
+    private GameObject player;
     private State currentState;
     private Animator animator;
 
     private float currentHealth;
     private float knockbackStartTime;
+    private float attackStartTime;
     private float dyingStartTime;
     private int damageDirection;
     private bool facingForward = true;
@@ -43,7 +47,8 @@ public class BasicEnemyBehavior : MonoBehaviour {
 
     private void Awake() {
         rb = gameObject.GetComponent<Rigidbody2D>();
-        player = GetComponent<Player>();
+        playerScript = GetComponent<Player>();
+        player = GameObject.Find("Player");
         animator = GetComponent<Animator>();
         currentState = State.MOVING;
         currentHealth = maxHealth;
@@ -75,6 +80,7 @@ public class BasicEnemyBehavior : MonoBehaviour {
     }
 
     private void UpdateMovingState() {
+        rb.SetRotation(0f);
         updatesSinceLastTurn++;
         if ((transform.position.x >= initialPos.x + patrollingDistance && facingForward)
             || (transform.position.x <= initialPos.x - patrollingDistance && !facingForward)
@@ -84,6 +90,9 @@ public class BasicEnemyBehavior : MonoBehaviour {
         }
         movement.Set(movementSpeed, rb.velocity.y);
         rb.velocity = movement;
+        if (IsPlayerInRadar()) {
+            SwitchState(State.CHASING);
+        }
     }
 
     private void ExitMovingState() {
@@ -95,7 +104,16 @@ public class BasicEnemyBehavior : MonoBehaviour {
     }
 
     private void UpdateChasingState() {
-
+        rb.SetRotation(0f);
+        if ((player.transform.position.x >= transform.position.x && !facingForward)
+            || (player.transform.position.x < transform.position.x && facingForward)) {
+            Turn();
+        }
+        transform.position = 
+            Vector2.MoveTowards(transform.position, player.transform.position, chasingSpeed * Time.deltaTime);
+        if (IsPlayerWithinAttackDistance()) {
+            SwitchState(State.ATTACKING);
+        }
     }
 
     private void ExitChasingState() {
@@ -103,11 +121,15 @@ public class BasicEnemyBehavior : MonoBehaviour {
     }
 
     private void EnterAttackingState() {
-
+        animator.SetBool("Attacking", true);
+        attackStartTime = Time.time;
     }
 
     private void UpdateAttackingState() {
-
+        if (Time.time >= attackStartTime + attackDuration) {
+            animator.SetBool("Attacking", false);
+            SwitchState(State.MOVING);
+        }
     }
 
     private void ExitAttackingState() {
@@ -116,10 +138,11 @@ public class BasicEnemyBehavior : MonoBehaviour {
 
     private void EnterDraggedState() {
         rb.constraints = RigidbodyConstraints2D.None;
+        animator.SetBool("BeingDragged", true);
     }
 
     private void ExitDraggedState() {
-        
+        animator.SetBool("BeingDragged", false);
     }
 
     private void EnterDeadState() {
@@ -149,7 +172,8 @@ public class BasicEnemyBehavior : MonoBehaviour {
     private void ExitKnockbackState() {
         rb.position = new Vector2(rb.position.x, initialPos.y);
         rb.SetRotation(0f);
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+        rb.velocity = Vector2.zero;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         animator.SetBool("Knockback", false);
     }
 
@@ -196,24 +220,10 @@ public class BasicEnemyBehavior : MonoBehaviour {
         currentState = state;
     }
 
-    private void UpdateState() {
-        if (IsPlayerInRadar()) {
-            currentState = State.CHASING;
-        }
-        if (IsPlayerWithinAttackDistance()) {
-            Attack();
-        }
-    }
-
     private void Turn() {
         transform.Rotate(0.0f, 180.0f, 0.0f);
         movementSpeed = -movementSpeed;
         facingForward = !facingForward;
-    }
-
-    private void Attack() {
-        currentState = State.ATTACKING;
-        // ...
     }
 
     private void Damage(float[] attackDetails) {
