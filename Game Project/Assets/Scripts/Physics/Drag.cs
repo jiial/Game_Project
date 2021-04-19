@@ -5,7 +5,6 @@ using UnityEngine;
 public class Drag : MonoBehaviour {
 
     [SerializeField] private float dragForce = 10;
-    [SerializeField] private float maxVelocity = 100;
     [SerializeField] private float dragSpeedMultiplier = 2;
 
     private Vector2 lastMousePos;
@@ -30,6 +29,9 @@ public class Drag : MonoBehaviour {
         } else if (hold) {
             hold = false;
             Destroy(GetComponent<FixedJoint2D>());
+            if (draggingObject.gameObject.layer.Equals(8)) { // Check if the target is an enemy
+                draggingObject.SendMessage("SetBeingDragged", false);
+            }
             draggingObject = null;
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
@@ -39,6 +41,9 @@ public class Drag : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D col) {
         if (hold && draggingObject == null && col.gameObject.GetComponent<MovableObject>() != null) {
             draggingObject = col.transform;
+            if (col.gameObject.layer.Equals(8)) { // Check if the target is an enemy
+                draggingObject.SendMessage("SetBeingDragged", true);
+            }
             Rigidbody2D rb = draggingObject.GetComponent<Rigidbody2D>();
             if (rb != null) {
                 FixedJoint2D fj = transform.gameObject.AddComponent(typeof(FixedJoint2D)) as FixedJoint2D;

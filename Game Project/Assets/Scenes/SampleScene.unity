@@ -284,6 +284,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &124414342
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 124414343}
+  m_Layer: 0
+  m_Name: Hitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &124414343
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124414342}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 3.7, y: 2.6, z: -34744.973}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 648538935}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &242965567
 GameObject:
   m_ObjectHideFlags: 0
@@ -763,6 +793,7 @@ Transform:
   - {fileID: 242965568}
   - {fileID: 849232679}
   - {fileID: 703654612}
+  - {fileID: 124414343}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -825,6 +856,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c152d26017327a4fbd4ee8610928d2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attack1HitBoxPos: {fileID: 124414343}
+  attack1Damage: 60
+  attack1Radius: 5
+  whatIsDamageable:
+    serializedVersion: 2
+    m_Bits: 256
   horizontalSpeed: 15
   verticalSpeed: 20
   facingForward: 1
@@ -977,7 +1014,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dragForce: 10
-  maxVelocity: 100
   dragSpeedMultiplier: 2
   hold: 0
 --- !u!233 &849232681
@@ -1253,7 +1289,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1164563865}
   - component: {fileID: 1164563866}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1449,7 +1485,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1730261205}
   - component: {fileID: 1730261206}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Left_wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1532,10 +1568,10 @@ GameObject:
   - component: {fileID: 1762695288}
   - component: {fileID: 1762695286}
   - component: {fileID: 1762695285}
-  - component: {fileID: 1762695284}
   - component: {fileID: 1762695289}
   - component: {fileID: 1762695290}
-  m_Layer: 0
+  - component: {fileID: 1762695284}
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -1650,7 +1686,13 @@ MonoBehaviour:
   patrollingDistance: 10
   observingDistance: 5
   attackDistance: 5
+  dragDamageMultiplier: 5
+  dragTargetDamageMultiplier: 0.1
   movementSpeed: 3
+  maxHealth: 100
+  knockbackDuration: 1
+  dyingDuration: 1
+  knockbackSpeed: {x: 5, y: 0}
 --- !u!1 &1907049790
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,7 +1785,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2058730277}
   - component: {fileID: 2058730278}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Right_Wing
   m_TagString: Untagged
   m_Icon: {fileID: 0}

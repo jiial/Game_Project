@@ -9,6 +9,11 @@ public class Player : MonoBehaviour {
         MELEE
     }
 
+    [SerializeField] private Transform attack1HitBoxPos;
+    [SerializeField] private float attack1Damage;
+    [SerializeField] private float attack1Radius;
+    [SerializeField] private LayerMask whatIsDamageable;
+
     [SerializeField] private float horizontalSpeed;
     [SerializeField] private float verticalSpeed;
 
@@ -20,6 +25,7 @@ public class Player : MonoBehaviour {
     private bool sheatingSword = false;
     private float updatesSinceSwitching = 0;
     private float combatSwitchCooldown = 1f;
+    private float[] attackDetails;
 
     private Animator animator;
 
@@ -31,6 +37,7 @@ public class Player : MonoBehaviour {
         body.freezeRotation = true;
         arm = GameObject.Find("Arm").GetComponent<PlayerArm>();
         animator = GetComponent<Animator>();
+        attackDetails = new float[2];
     }
 
     void Update() {
@@ -101,6 +108,15 @@ public class Player : MonoBehaviour {
 
     private void Attack() {
         animator.Play("Attack");
+
+        Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attack1HitBoxPos.position, attack1Radius, whatIsDamageable);
+
+        attackDetails[0] = attack1Damage;
+
+        foreach (Collider2D collider in detectedObjects) {
+            attackDetails[1] = transform.position.x > collider.transform.position.x ? -1 : 1;
+            collider.transform.SendMessage("Damage", attackDetails);
+        }
     }
 
     private void SwitchCombatStyle() {
