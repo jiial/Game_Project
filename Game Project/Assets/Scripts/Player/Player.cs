@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
     [SerializeField] private Transform attack1HitBoxPos;
     [SerializeField] private float attack1Damage;
     [SerializeField] private float attack1Radius;
+    [SerializeField] private float attack1Duration;
     [SerializeField] private LayerMask whatIsDamageable;
 
     [SerializeField] private float horizontalSpeed;
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour {
     private float updatesSinceSwitching = 0;
     private float combatSwitchCooldown = 1f;
     private float[] attackDetails;
+    private float attackStartTime;
 
     private Animator animator;
 
@@ -83,7 +85,9 @@ public class Player : MonoBehaviour {
 
         // Check if we need to attack
         if (Input.GetMouseButtonDown(0) && currentStyle.Equals(CombatStyle.MELEE) && !sheatingSword) {
-            Attack();
+            if (Time.time >= attackStartTime + attack1Duration) {
+                Attack();
+            }
         }
 
             // Finish switching to telekinesis with cooldown
@@ -119,6 +123,7 @@ public class Player : MonoBehaviour {
     }
 
     private void Attack() {
+        attackStartTime = Time.time;
         animator.Play("Attack");
 
         Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attack1HitBoxPos.position, attack1Radius, whatIsDamageable);

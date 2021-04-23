@@ -1879,6 +1879,7 @@ MonoBehaviour:
   attack1HitBoxPos: {fileID: 124414343}
   attack1Damage: 60
   attack1Radius: 5
+  attack1Duration: 1
   whatIsDamageable:
     serializedVersion: 2
     m_Bits: 256

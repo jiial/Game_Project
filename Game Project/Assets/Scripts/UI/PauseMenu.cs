@@ -32,6 +32,9 @@ public class PauseMenu : Menu {
     }
 
     public void LoadMenu() {
+        isPaused = false;
+        Time.timeScale = 1f;
+        pauseMenuUI.SetActive(false);
         SceneManager.LoadScene("Menu");
     }
 }
