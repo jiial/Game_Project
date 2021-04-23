@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PauseMenu : MonoBehaviour {
+public class PauseMenu : Menu {
 
     public static bool isPaused;
 
@@ -33,10 +33,5 @@ public class PauseMenu : MonoBehaviour {
 
     public void LoadMenu() {
         SceneManager.LoadScene("Menu");
-    }
-
-    public void QuitGame() {
-        Debug.Log("Quitting game from Pause menu");
-        Application.Quit();
     }
 }
