@@ -16,11 +16,14 @@ public class Player : MonoBehaviour {
 
     [SerializeField] private float horizontalSpeed;
     [SerializeField] private float verticalSpeed;
+    [SerializeField] private float maxHealth;
 
     private Rigidbody2D body;
     private PlayerArm arm;
     private bool grounded;
+    private HealthBar healthbar;
 
+    private float currentHealth;
     private bool drawingSword = false;
     private bool sheatingSword = false;
     private float updatesSinceSwitching = 0;
@@ -38,9 +41,16 @@ public class Player : MonoBehaviour {
         arm = GameObject.Find("Arm").GetComponent<PlayerArm>();
         animator = GetComponent<Animator>();
         attackDetails = new float[2];
+        currentHealth = maxHealth;
+        healthbar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
+        healthbar.SetMaxHealth(maxHealth);
     }
 
     void Update() {
+        if (currentHealth <= 0) {
+            // Game over
+
+        }
         // Move the character based on input and update the animator
         float horizontalInput = Input.GetAxis("Horizontal");
         if (horizontalInput == 0) {
@@ -131,5 +141,10 @@ public class Player : MonoBehaviour {
             animator.Play("SheatheSword");
             sheatingSword = true;
         }
+    }
+
+    private void Damage(float damage) {
+        currentHealth -= damage;
+        healthbar.SetHealth(currentHealth);
     }
 }

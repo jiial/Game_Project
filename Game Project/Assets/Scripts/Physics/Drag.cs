@@ -28,18 +28,21 @@ public class Drag : MonoBehaviour {
             }
         } else if (hold) {
             hold = false;
-            Destroy(GetComponent<FixedJoint2D>());
-            if (draggingObject.gameObject.layer.Equals(8)) { // Check if the target is an enemy
-                draggingObject.SendMessage("SetBeingDragged", false);
+            if (draggingObject != null) {
+                Destroy(GetComponent<FixedJoint2D>());
+                if (draggingObject.gameObject.layer.Equals(8)) { // Check if the target is an enemy
+                    draggingObject.SendMessage("SetBeingDragged", false);
+                }
+                draggingObject = null;
+                transform.rotation = Quaternion.Euler(0, 0, 0);
             }
-            draggingObject = null;
-            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         lastMousePos = mousePos;
     }
 
     private void OnCollisionEnter2D(Collision2D col) {
-        if (hold && draggingObject == null && col.gameObject.GetComponent<MovableObject>() != null) {
+        if (hold && draggingObject == null 
+            && col.gameObject.GetComponent<MovableObject>() != null) {
             draggingObject = col.transform;
             if (col.gameObject.layer.Equals(8)) { // Check if the target is an enemy
                 draggingObject.SendMessage("SetBeingDragged", true);

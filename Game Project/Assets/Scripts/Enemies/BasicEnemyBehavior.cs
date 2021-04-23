@@ -16,6 +16,7 @@ public class BasicEnemyBehavior : MonoBehaviour {
     [SerializeField] private float patrollingDistance;
     [SerializeField] private float observingDistance;
     [SerializeField] private float attackDistance;
+    [SerializeField] private float baseDamage;
     [SerializeField] private float dragDamageMultiplier;
     [SerializeField] private float dragTargetDamageMultiplier; // Used when enemy gets hit by another object
 
@@ -25,6 +26,7 @@ public class BasicEnemyBehavior : MonoBehaviour {
     [SerializeField] private float knockbackDuration;
     [SerializeField] private float dyingDuration;
     [SerializeField] private float attackDuration;
+    [SerializeField] private float attackCoolDown;
     [SerializeField] private Vector2 knockbackSpeed;
 
     private Vector2 initialPos;
@@ -35,10 +37,13 @@ public class BasicEnemyBehavior : MonoBehaviour {
     private GameObject player;
     private State currentState;
     private Animator animator;
+    private ParticleSystemScript particles;
+    private Transform body;
 
     private float currentHealth;
     private float knockbackStartTime;
     private float attackStartTime;
+    private float attackEndTime;
     private float dyingStartTime;
     private int damageDirection;
     private bool facingForward = true;
@@ -53,6 +58,8 @@ public class BasicEnemyBehavior : MonoBehaviour {
         currentState = State.MOVING;
         currentHealth = maxHealth;
         initialPos = transform.position;
+        particles = GetComponent<ParticleSystemScript>();
+        body = transform.Find("Enemy_Body");
     }
 
     private void Update() {
@@ -109,9 +116,10 @@ public class BasicEnemyBehavior : MonoBehaviour {
             || (player.transform.position.x < transform.position.x && facingForward)) {
             Turn();
         }
+        Vector2 targetPos = new Vector2(player.transform.position.x, player.transform.position.y + 5);
         transform.position = 
-            Vector2.MoveTowards(transform.position, player.transform.position, chasingSpeed * Time.deltaTime);
-        if (IsPlayerWithinAttackDistance()) {
+            Vector2.MoveTowards(transform.position, targetPos, chasingSpeed * Time.deltaTime);
+        if (IsPlayerWithinAttackDistance() && Time.time >= attackEndTime + attackCoolDown) {
             SwitchState(State.ATTACKING);
         }
     }
@@ -123,17 +131,18 @@ public class BasicEnemyBehavior : MonoBehaviour {
     private void EnterAttackingState() {
         animator.SetBool("Attacking", true);
         attackStartTime = Time.time;
+        player.SendMessage("Damage", baseDamage);
     }
 
     private void UpdateAttackingState() {
         if (Time.time >= attackStartTime + attackDuration) {
             animator.SetBool("Attacking", false);
-            SwitchState(State.MOVING);
+            SwitchState(State.CHASING);
         }
     }
 
     private void ExitAttackingState() {
-
+        attackEndTime = Time.time;
     }
 
     private void EnterDraggedState() {
@@ -170,7 +179,6 @@ public class BasicEnemyBehavior : MonoBehaviour {
     }
 
     private void ExitKnockbackState() {
-        rb.position = new Vector2(rb.position.x, initialPos.y);
         rb.SetRotation(0f);
         rb.velocity = Vector2.zero;
         rb.constraints = RigidbodyConstraints2D.FreezePositionY;
@@ -235,6 +243,8 @@ public class BasicEnemyBehavior : MonoBehaviour {
         } else if (currentHealth <= 0.0f) {
             SwitchState(State.DEAD);
         }
+
+        particles.PlayAtPosition(body.position);
     }
 
     private bool IsPlayerInRadar() {

@@ -16,6 +16,9 @@ public class PlayerArm : MonoBehaviour {
     }
 
     void Update() {
+        if (PauseMenu.isPaused) {
+            return;
+        }
         // Update arm position according to the position of the player
         if (playerScript.facingForward) {
             transform.position = player.transform.position + offset;
