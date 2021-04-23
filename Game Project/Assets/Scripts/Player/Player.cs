@@ -32,6 +32,8 @@ public class Player : MonoBehaviour {
     private float combatSwitchCooldown = 1f;
     private float[] attackDetails;
     private float attackStartTime;
+    private float dyingStartTime;
+    private bool dying;
 
     private Animator animator;
 
@@ -52,8 +54,16 @@ public class Player : MonoBehaviour {
 
     void Update() {
         if (currentHealth <= 0) {
-            // Game over
+            // Die
+            dying = true;
 
+            if (dying && Time.time >= dyingStartTime + 1f) {
+                // Game over, open menu
+                GameObject.Find("Canvas").GetComponent<GameOverMenu>().EnterMenu();
+                currentHealth = maxHealth;
+            } else {
+                return;
+            }
         }
         // Move the character based on input and update the animator
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -152,7 +162,11 @@ public class Player : MonoBehaviour {
 
     private void Damage(float damage) {
         currentHealth -= damage;
-        healthbar.SetHealth(currentHealth);
+        if (currentHealth <= 0) {
+            dyingStartTime = Time.time;
+        }
+        Debug.Log("Player hit, current health: " + currentHealth);
+        healthbar.SetHealth(currentHealth >= 0 ? currentHealth : 0);
         Vector2 pos = new Vector2(transform.position.x, transform.position.y + 3); // Small offset looks better
         particles.PlayAtPosition(pos);
     }

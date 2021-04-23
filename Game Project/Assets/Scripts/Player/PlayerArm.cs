@@ -16,7 +16,7 @@ public class PlayerArm : MonoBehaviour {
     }
 
     void Update() {
-        if (PauseMenu.isPaused) {
+        if (PauseMenu.isPaused || GameOverMenu.isOver) {
             return;
         }
         // Update arm position according to the position of the player
