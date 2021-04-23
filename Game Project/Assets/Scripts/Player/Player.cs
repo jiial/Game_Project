@@ -22,6 +22,7 @@ public class Player : MonoBehaviour {
     private PlayerArm arm;
     private bool grounded;
     private HealthBar healthbar;
+    private ParticleSystemScript particles;
 
     private float currentHealth;
     private bool drawingSword = false;
@@ -44,6 +45,7 @@ public class Player : MonoBehaviour {
         currentHealth = maxHealth;
         healthbar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
         healthbar.SetMaxHealth(maxHealth);
+        particles = GetComponent<ParticleSystemScript>();
     }
 
     void Update() {
@@ -146,5 +148,7 @@ public class Player : MonoBehaviour {
     private void Damage(float damage) {
         currentHealth -= damage;
         healthbar.SetHealth(currentHealth);
+        Vector2 pos = new Vector2(transform.position.x, transform.position.y + 3); // Small offset looks better
+        particles.PlayAtPosition(pos);
     }
 }

@@ -264,10 +264,12 @@ public class BasicEnemyBehavior : MonoBehaviour {
                 Damage(attackDetails);
             } else if (collision.gameObject.GetComponent<MovableObject>() != null) {
                 Rigidbody2D hittingRb = collision.gameObject.GetComponent<Rigidbody2D>();
-                float[] attackDetails = new float[2];
-                attackDetails[0] = hittingRb.velocity.magnitude * dragTargetDamageMultiplier * rb.mass;
-                attackDetails[1] = hittingRb.velocity.x > transform.position.x ? -1 : 1;
-                Damage(attackDetails);
+                if (hittingRb.velocity.magnitude > 0.1f) {
+                    float[] attackDetails = new float[2];
+                    attackDetails[0] = hittingRb.velocity.magnitude * dragTargetDamageMultiplier * rb.mass;
+                    attackDetails[1] = hittingRb.velocity.x > transform.position.x ? -1 : 1;
+                    Damage(attackDetails);
+                }
             }
         }
     }
