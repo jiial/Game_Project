@@ -29,7 +29,7 @@ public class Player : MonoBehaviour {
     private bool drawingSword = false;
     private bool sheatingSword = false;
     private float updatesSinceSwitching = 0;
-    private float combatSwitchCooldown = 1f;
+    private float combatSwitchCooldown = 1.25f;
     private float[] attackDetails;
     private float attackStartTime;
     private float dyingStartTime;
@@ -121,8 +121,10 @@ public class Player : MonoBehaviour {
         }
     }
 
-    void OnCollisionEnter2D() {
-        grounded = true;
+    private void OnCollisionEnter2D(Collision2D col) {
+        if (col.gameObject.tag == "Ground") {
+            grounded = true;
+        }
         animator.SetBool("isJumping", false);
     }
 

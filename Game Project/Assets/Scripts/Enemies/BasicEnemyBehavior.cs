@@ -117,8 +117,12 @@ public class BasicEnemyBehavior : MonoBehaviour {
             Turn();
         }
         Vector2 targetPos = new Vector2(player.transform.position.x, player.transform.position.y + 5);
-        transform.position = 
+        Vector2 nextPos = 
             Vector2.MoveTowards(transform.position, targetPos, chasingSpeed * Time.deltaTime);
+        if (isInGround(nextPos)) {
+            nextPos = new Vector2(nextPos.x, nextPos.y + 5f);
+        }
+        transform.position = nextPos;
         if (IsPlayerWithinAttackDistance() && Time.time >= attackEndTime + attackCoolDown) {
             SwitchState(State.ATTACKING);
         }
@@ -174,13 +178,17 @@ public class BasicEnemyBehavior : MonoBehaviour {
 
     private void UpdateKnockbackState() {
         if (Time.time >= knockbackStartTime + knockbackDuration) {
-            SwitchState(State.MOVING);
+            SwitchState(State.CHASING);
         }
     }
 
     private void ExitKnockbackState() {
         rb.SetRotation(0f);
         rb.velocity = Vector2.zero;
+        transform.position = new Vector2(transform.position.x, transform.position.y + 1.5f);
+        if (isInGround(transform.position)) {
+           transform.position = new Vector2(transform.position.x, transform.position.y + 3.5f);
+        }
         rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         animator.SetBool("Knockback", false);
     }
@@ -253,6 +261,11 @@ public class BasicEnemyBehavior : MonoBehaviour {
 
     private bool IsPlayerWithinAttackDistance() {
         return Vector2.Distance(transform.position, player.transform.position) <= attackDistance;
+    }
+
+    private bool isInGround(Vector2 point) {
+        Vector2 closest = GameObject.Find("NewGround").GetComponent<Collider2D>().ClosestPoint(point);
+        return closest.y > point.y;
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

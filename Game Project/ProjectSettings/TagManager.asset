@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - ShowOnPause
+  - Ground
   layers:
   - Default
   - TransparentFX
@@ -16,11 +17,11 @@ TagManager:
   - 
   - 
   - Enemy
-  - 
-  - 
-  - 
-  - 
-  - 
+  - ForegroundElements
+  - Foreground
+  - Bg1
+  - Bg2
+  - Sky
   - 
   - 
   - 
@@ -40,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 110529231
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
