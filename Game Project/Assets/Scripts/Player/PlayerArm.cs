@@ -13,6 +13,8 @@ public class PlayerArm : MonoBehaviour {
         player = GameObject.Find("Player");
         playerScript = player.GetComponent<Player>();
         offset = transform.position - player.transform.position;
+        GameObject cageDoor = GameObject.Find("Cage").transform.Find("CageDoor").gameObject;
+        Physics2D.IgnoreCollision(GetComponent<Collider2D>(), cageDoor.GetComponent<Collider2D>()); // Ignore collision with the door as the cage collision is enough
     }
 
     void Update() {

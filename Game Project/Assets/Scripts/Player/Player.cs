@@ -50,6 +50,8 @@ public class Player : MonoBehaviour {
         healthbar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
         healthbar.SetMaxHealth(maxHealth);
         particles = GetComponent<ParticleSystemScript>();
+        GameObject cageDoor = GameObject.Find("Cage").transform.Find("CageDoor").gameObject;
+        Physics2D.IgnoreCollision(GetComponent<Collider2D>(), cageDoor.GetComponent<Collider2D>()); // Ignore collision with the door as the cage collision is enough
     }
 
     void Update() {
@@ -152,11 +154,13 @@ public class Player : MonoBehaviour {
         if (currentStyle.Equals(CombatStyle.TELEKINESIS)) {
             currentStyle = CombatStyle.MELEE;
             arm.ResetPosition();
+            arm.GetComponent<Collider2D>().enabled = false;
             GameObject.Find("DragPoint").GetComponent<Drag>().enabled = false;
             animator.Play("DrawSword");
             drawingSword = true;
         } else if (currentStyle.Equals(CombatStyle.MELEE)) {
             arm.ResetPosition();
+            arm.GetComponent<Collider2D>().enabled = true;
             animator.Play("SheatheSword");
             sheatingSword = true;
         }
