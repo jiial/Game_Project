@@ -23,6 +23,7 @@ public class CageDoor : MonoBehaviour {
             cage.transform.Find("CageFront").GetComponent<Collider2D>().enabled = false;
             animator.enabled = false;
             opened = true;
+            GameObject.Find("Warrior1").AddComponent<MovableObject>();
         }
     }
 

@@ -46,6 +46,8 @@ public class Drag : MonoBehaviour {
             draggingObject = col.transform;
             if (col.gameObject.layer.Equals(8)) { // Check if the target is an enemy
                 draggingObject.SendMessage("SetBeingDragged", true);
+            } else if (col.gameObject.name.Equals("CageKey")) {
+                draggingObject.SendMessage("StartDragging");
             }
             Rigidbody2D rb = draggingObject.GetComponent<Rigidbody2D>();
             if (rb != null) {

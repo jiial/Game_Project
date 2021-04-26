@@ -43,7 +43,7 @@ public class Player : MonoBehaviour {
     void Awake() {
         body = GetComponent<Rigidbody2D>();
         body.freezeRotation = true;
-        arm = GameObject.Find("Arm").GetComponent<PlayerArm>();
+        arm = transform.Find("Arm").GetComponent<PlayerArm>();
         animator = GetComponent<Animator>();
         attackDetails = new float[2];
         currentHealth = maxHealth;
