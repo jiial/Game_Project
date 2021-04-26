@@ -31,6 +31,7 @@ public class Key : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.name.Equals("CageDoor")) {
             GameObject.Find("Cage").SendMessage("Open");
+            Destroy(gameObject);
         }
     }
 }
