@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicEnemyBehavior : MonoBehaviour {
-
+public class WarriorEnemyBehavior : MonoBehaviour {
     private enum State {
         MOVING,
         CHASING,
@@ -50,6 +49,7 @@ public class BasicEnemyBehavior : MonoBehaviour {
     private bool facingForward = true;
     private bool beingDragged = false;
     private int updatesSinceLastTurn = 0; // Used in the UpdateMovingState-method to fix a bug where the enemy keeps turning back and forth
+    private float prevX;
 
     private void Awake() {
         rb = gameObject.GetComponent<Rigidbody2D>();
@@ -60,6 +60,7 @@ public class BasicEnemyBehavior : MonoBehaviour {
         currentHealth = maxHealth;
         initialPos = transform.position;
         particles = GetComponent<ParticleSystemScript>();
+        Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("CageKey").GetComponent<Collider2D>());
     }
 
     private void Update() {
@@ -95,11 +96,18 @@ public class BasicEnemyBehavior : MonoBehaviour {
             Turn();
             updatesSinceLastTurn = 0;
         }
-        movement.Set(movementSpeed, rb.velocity.y);
+        float yVelocity;
+        if (System.Math.Abs(rb.position.x - prevX) < 0.05f) { // If x hasn't changed, then there must be an uphill so y is increased
+            yVelocity = rb.velocity.y + 1f;
+        } else {
+            yVelocity = 0f;
+        }
+        movement.Set(movementSpeed, yVelocity);
         rb.velocity = movement;
         if (IsPlayerInRadar()) {
             SwitchState(State.CHASING);
         }
+        prevX = rb.position.x;
     }
 
     private void ExitMovingState() {
@@ -117,14 +125,27 @@ public class BasicEnemyBehavior : MonoBehaviour {
             Turn();
         }
         Vector2 targetPos = new Vector2(player.transform.position.x, player.transform.position.y + 5);
-        Vector2 nextPos = 
+        Vector2 nextPos =
             Vector2.MoveTowards(transform.position, targetPos, chasingSpeed * Time.deltaTime);
-        if (IsInGround(nextPos - boxCollider.offset)) {
-            nextPos = new Vector2(nextPos.x, nextPos.y + 5f);
+        if (IsInGround((Vector2)transform.position - boxCollider.offset)) {
+            transform.position = new Vector2(nextPos.x, nextPos.y + 3.5f);
+        } else if (System.Math.Abs(nextPos.x - prevX) < 0.05f) { // If x hasn't changed, then there must be an uphill so y is increased
+            float yVel = rb.velocity.y + 2.5f;
+            float xVel;
+            //nextPos.y = nextPos.y + 0.2f;
+            if (facingForward) {
+                xVel = rb.velocity.x + 2.5f;
+            } else {
+                xVel = rb.velocity.x - 2.5f;
+            }
+            rb.velocity = new Vector2(xVel, yVel);
+        } else {
+            transform.position = nextPos;
         }
-        transform.position = nextPos;
+        
+        prevX = rb.position.x;
         if (IsPlayerWithinAttackDistance() && Time.time >= attackEndTime + attackCoolDown) {
-            SwitchState(State.ATTACKING);
+            SwitchState(State.ATTACKING); 
         }
     }
 
@@ -185,11 +206,9 @@ public class BasicEnemyBehavior : MonoBehaviour {
     private void ExitKnockbackState() {
         rb.SetRotation(0f);
         rb.velocity = Vector2.zero;
-        transform.position = new Vector2(transform.position.x, transform.position.y + 1.5f);
         if (IsInGround((Vector2) transform.position - boxCollider.offset)) {
-           transform.position = new Vector2(transform.position.x, transform.position.y + 3.5f);
+            transform.position = new Vector2(transform.position.x, transform.position.y + 3.5f);
         }
-        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         animator.SetBool("Knockback", false);
     }
 
@@ -244,7 +263,7 @@ public class BasicEnemyBehavior : MonoBehaviour {
 
     private void Damage(float[] attackDetails) {
         currentHealth -= attackDetails[0];
-        damageDirection = (int) attackDetails[1];
+        damageDirection = (int)attackDetails[1];
 
         if (currentHealth > 0.0f && !beingDragged) {
             SwitchState(State.KNOCKBACK);
@@ -264,8 +283,12 @@ public class BasicEnemyBehavior : MonoBehaviour {
     }
 
     private bool IsInGround(Vector2 point) {
+        return GameObject.Find("NewGround").GetComponent<EdgeCollider2D>().bounds.Contains(point);
+    }
+
+    private bool IsOnGround(Vector2 point) {
         Vector2 closest = GameObject.Find("NewGround").GetComponent<Collider2D>().ClosestPoint(point);
-        return closest.y > point.y;
+        return 0.1f >= point.y - closest.y && point.y - closest.y >= 0f;
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

@@ -9,7 +9,7 @@ public class MovableObject : MonoBehaviour {
     void Awake() {
         col = GetComponent<Collider2D>();
         GameObject player = GameObject.Find("Player");
-        GameObject playerArm = GameObject.Find("Arm");
+        GameObject playerArm = player.transform.Find("Arm").gameObject;
         Physics2D.IgnoreCollision(col, player.GetComponent<Collider2D>()); // Ignore collision with player
         Physics2D.IgnoreCollision(col, playerArm.GetComponent<Collider2D>()); // Ignore collision with player's arm
     }

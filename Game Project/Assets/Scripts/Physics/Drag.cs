@@ -9,6 +9,7 @@ public class Drag : MonoBehaviour {
 
     private Vector2 lastMousePos;
     private Transform draggingObject;
+    private FixedJoint2D fj;
 
     public bool hold = false;
 
@@ -29,10 +30,12 @@ public class Drag : MonoBehaviour {
         } else if (hold) {
             hold = false;
             if (draggingObject != null) {
-                Destroy(GetComponent<FixedJoint2D>());
+                Destroy(fj);
                 if (draggingObject.gameObject.layer.Equals(8)) { // Check if the target is an enemy
                     draggingObject.SendMessage("SetBeingDragged", false);
+                    Debug.Log("Message sent to enemy!");
                 }
+                Debug.Log("Stopped dragging: " + draggingObject.name);
                 draggingObject = null;
                 transform.rotation = Quaternion.Euler(0, 0, 0);
             }
@@ -51,10 +54,9 @@ public class Drag : MonoBehaviour {
             }
             Rigidbody2D rb = draggingObject.GetComponent<Rigidbody2D>();
             if (rb != null) {
-                FixedJoint2D fj = transform.gameObject.AddComponent(typeof(FixedJoint2D)) as FixedJoint2D;
+                fj = transform.gameObject.AddComponent(typeof(FixedJoint2D)) as FixedJoint2D;
                 fj.connectedBody = rb;
-            } else {
-                FixedJoint2D fj = transform.gameObject.AddComponent(typeof(FixedJoint2D)) as FixedJoint2D;
+                Debug.Log("Started dragging: " + col.gameObject.name);
             }
         }
     }
