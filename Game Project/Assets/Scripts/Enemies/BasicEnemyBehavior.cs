@@ -39,7 +39,6 @@ public class BasicEnemyBehavior : MonoBehaviour {
     private State currentState;
     private Animator animator;
     private ParticleSystemScript particles;
-    private BoxCollider2D boxCollider;
 
     private float currentHealth;
     private float knockbackStartTime;
@@ -53,7 +52,6 @@ public class BasicEnemyBehavior : MonoBehaviour {
 
     private void Awake() {
         rb = gameObject.GetComponent<Rigidbody2D>();
-        boxCollider = GetComponent<BoxCollider2D>();
         player = GameObject.Find("Player");
         animator = GetComponent<Animator>();
         currentState = State.MOVING;
@@ -119,7 +117,7 @@ public class BasicEnemyBehavior : MonoBehaviour {
         Vector2 targetPos = new Vector2(player.transform.position.x, player.transform.position.y + 5);
         Vector2 nextPos = 
             Vector2.MoveTowards(transform.position, targetPos, chasingSpeed * Time.deltaTime);
-        if (IsInGround(nextPos - boxCollider.offset)) {
+        if (IsInGround(nextPos)) {
             nextPos = new Vector2(nextPos.x, nextPos.y + 5f);
         }
         transform.position = nextPos;
@@ -185,9 +183,9 @@ public class BasicEnemyBehavior : MonoBehaviour {
     private void ExitKnockbackState() {
         rb.SetRotation(0f);
         rb.velocity = Vector2.zero;
-        transform.position = new Vector2(transform.position.x, transform.position.y + 1.5f);
-        if (IsInGround((Vector2) transform.position - boxCollider.offset)) {
-           transform.position = new Vector2(transform.position.x, transform.position.y + 3.5f);
+        transform.position = new Vector2(transform.position.x, transform.position.y + 3.5f);
+        if (IsInGround(transform.position)) {
+           transform.position = new Vector2(transform.position.x, transform.position.y + 4.5f);
         }
         rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         animator.SetBool("Knockback", false);
@@ -264,8 +262,15 @@ public class BasicEnemyBehavior : MonoBehaviour {
     }
 
     private bool IsInGround(Vector2 point) {
-        Vector2 closest = GameObject.Find("NewGround").GetComponent<Collider2D>().ClosestPoint(point);
-        return closest.y > point.y;
+        EdgeCollider2D[] colliders = GameObject.Find("Ground").GetComponentsInChildren<EdgeCollider2D>();
+
+        for (int i = 0; i < colliders.Length; i++) {
+            if (colliders[i].bounds.Contains(point)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision) {

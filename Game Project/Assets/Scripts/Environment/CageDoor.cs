@@ -31,5 +31,6 @@ public class CageDoor : MonoBehaviour {
         openStartTime = Time.time;
         startedOpening = true;
         animator.Play("OpenDoor");
+        GameObject.Find("HelpText").SetActive(false); // Hides the help text
     }
 }

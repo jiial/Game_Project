@@ -124,6 +124,9 @@ public class WarriorEnemyBehavior : MonoBehaviour {
             || (player.transform.position.x < transform.position.x && facingForward)) {
             Turn();
         }
+        if (IsInGround((Vector2)transform.position - boxCollider.offset)) {
+            transform.position = new Vector2(transform.position.x, transform.position.y + 5.5f);
+        }
         Vector2 targetPos = new Vector2(player.transform.position.x, player.transform.position.y + 5);
         Vector2 nextPos =
             Vector2.MoveTowards(transform.position, targetPos, chasingSpeed * Time.deltaTime);
@@ -207,7 +210,7 @@ public class WarriorEnemyBehavior : MonoBehaviour {
         rb.SetRotation(0f);
         rb.velocity = Vector2.zero;
         if (IsInGround((Vector2) transform.position - boxCollider.offset)) {
-            transform.position = new Vector2(transform.position.x, transform.position.y + 3.5f);
+            transform.position = new Vector2(transform.position.x, transform.position.y + 5.5f);
         }
         animator.SetBool("Knockback", false);
     }
@@ -283,7 +286,15 @@ public class WarriorEnemyBehavior : MonoBehaviour {
     }
 
     private bool IsInGround(Vector2 point) {
-        return GameObject.Find("NewGround").GetComponent<EdgeCollider2D>().bounds.Contains(point);
+        EdgeCollider2D[] colliders = GameObject.Find("Ground").GetComponentsInChildren<EdgeCollider2D>();
+        
+        for (int i = 0; i < colliders.Length; i++) {
+            if (colliders[i].bounds.Contains(point)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private bool IsOnGround(Vector2 point) {
