@@ -2034,7 +2034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrollingDistance: 10
   observingDistance: 20
-  attackDistance: 5
+  attackDistance: 6
   baseDamage: 40
   dragDamageMultiplier: 1.2
   dragTargetDamageMultiplier: 0.6
@@ -3179,7 +3179,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 77.18, y: -39}
+  m_AnchoredPosition: {x: 77, y: -39}
   m_SizeDelta: {x: 73.4496, y: 5.4333954}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &506014125
@@ -3396,7 +3396,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 39.762424
+  orthographic size: 40.48554
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -7053,7 +7053,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrollingDistance: 10
   observingDistance: 20
-  attackDistance: 5
+  attackDistance: 6
   baseDamage: 40
   dragDamageMultiplier: 1.2
   dragTargetDamageMultiplier: 0.6
@@ -12705,7 +12705,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 110529231
   m_SortingLayer: -1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 3538959477924059106, guid: 8787032e8bc34254b8ef317c989c15d1,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -12767,7 +12767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrollingDistance: 10
   observingDistance: 20
-  attackDistance: 5
+  attackDistance: 6
   baseDamage: 40
   dragDamageMultiplier: 1.2
   dragTargetDamageMultiplier: 0.6
@@ -12835,7 +12835,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1398322309}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.38, y: -17.56, z: 0}
+  m_LocalPosition: {x: -5.3, y: -17.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2114913531}
@@ -13214,7 +13214,7 @@ MonoBehaviour:
   - {fileID: 596012755}
   - {fileID: 3434385}
   m_Bounds:
-    m_Center: {x: 0.0009998083, y: -0.0014841557, z: 0}
+    m_Center: {x: 0.0009996891, y: -0.0014841557, z: 0}
     m_Extent: {x: 1.0540001, y: 2.3585157, z: 0}
   m_UseBatching: 1
   m_AlwaysUpdate: 1
@@ -14839,7 +14839,7 @@ MonoBehaviour:
   patrollingDistance: 10
   observingDistance: 30
   attackDistance: 5
-  baseDamage: 0
+  baseDamage: 30
   dragDamageMultiplier: 1.5
   dragTargetDamageMultiplier: 0.075
   movementSpeed: 3

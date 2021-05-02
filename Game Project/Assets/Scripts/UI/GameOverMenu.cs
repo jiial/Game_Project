@@ -24,9 +24,9 @@ public class GameOverMenu : Menu {
         gameOverMenuUI.SetActive(true);
     }
     public void PlayAgain() {
+        gameOverMenuUI.SetActive(false);
         Time.timeScale = 1f;
         isOver = false;
-        gameOverMenuUI.SetActive(false);
         SceneManager.LoadScene(1);
     }
 

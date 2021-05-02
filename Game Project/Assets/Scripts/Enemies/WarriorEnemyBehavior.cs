@@ -97,7 +97,7 @@ public class WarriorEnemyBehavior : MonoBehaviour {
             updatesSinceLastTurn = 0;
         }
         float yVelocity;
-        if (System.Math.Abs(rb.position.x - prevX) < 0.05f) { // If x hasn't changed, then there must be an uphill so y is increased
+        if (System.Math.Abs(rb.position.x - prevX) < 0.05f && rb.velocity.magnitude < 2.5f) { // If x hasn't changed, then there must be an uphill so y is increased
             yVelocity = rb.velocity.y + 1f;
         } else {
             yVelocity = 0f;
@@ -132,14 +132,14 @@ public class WarriorEnemyBehavior : MonoBehaviour {
             Vector2.MoveTowards(transform.position, targetPos, chasingSpeed * Time.deltaTime);
         if (IsInGround((Vector2)transform.position - boxCollider.offset)) {
             transform.position = new Vector2(nextPos.x, nextPos.y + 3.5f);
-        } else if (System.Math.Abs(nextPos.x - prevX) < 0.05f) { // If x hasn't changed, then there must be an uphill so y is increased
+        } else if (System.Math.Abs(nextPos.x - prevX) < 0.05f && rb.velocity.magnitude < 2.5f) { // If x hasn't changed, then there must be an uphill so y is increased
             float yVel = rb.velocity.y + 2.5f;
             float xVel;
             //nextPos.y = nextPos.y + 0.2f;
             if (facingForward) {
                 xVel = rb.velocity.x + 2.5f;
             } else {
-                xVel = rb.velocity.x - 2.5f;
+                xVel = -(rb.velocity.x + 2.5f);
             }
             rb.velocity = new Vector2(xVel, yVel);
         } else {
