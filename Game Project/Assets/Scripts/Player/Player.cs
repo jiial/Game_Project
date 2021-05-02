@@ -61,11 +61,16 @@ public class Player : MonoBehaviour {
 
             if (dying && Time.time >= dyingStartTime + 1f) {
                 // Game over, open menu
-                GameObject.Find("Canvas").GetComponent<GameOverMenu>().EnterMenu();
-                currentHealth = maxHealth;
+                GameObject.Find("Canvas").GetComponent<GameOverMenu>().EnterMenu(false);
+                currentHealth = maxHealth; // Reset health
             } else {
                 return;
             }
+        } else if (transform.position.x > 200.0f && GameObject.FindGameObjectsWithTag("Enemy").Length == 0) {
+            // If gone through the map and no more enemies, the game is over and you have won
+            // Game over, open menu
+            GameObject.Find("Canvas").GetComponent<GameOverMenu>().EnterMenu(true);
+            currentHealth = maxHealth; // Reset health
         }
         // Move the character based on input and update the animator
         float horizontalInput = Input.GetAxis("Horizontal");
