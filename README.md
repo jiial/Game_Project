@@ -19,3 +19,10 @@ Another interesting thing was the implementation of the flying enemies. The main
 
 The total work time is hard to estimate since I didn't keep track of it, but I can say for certain that I've spent more time on this course than most 5 credit University courses. I'm guessing the total time is somewhere between 120 and 180 hours, even though the game doesn't look like much.
 Coming up with the concept, battling with all kinds of bugs and weird issues, designing/implementing the graphics and all the research on how to use Unity and implement some core functionality was more time consuming than I initially thought, and in the end the project ended up being more like a proof of concept than a game.
+
+
+**Some known issues**
+-After completing the level and choosing to play again the game might freeze, so you might need to restart to play again.
+-Enemy movement is sometimes "buggy", e.g. fast movements, appearing inside colliders (ground), "sliding" on the ground or moving back and forth around the player
+-Small graphical bugs
+-Moving against a wall while jumping can make the player "levitate" on that spot
