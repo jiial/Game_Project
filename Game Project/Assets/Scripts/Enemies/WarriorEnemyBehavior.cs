@@ -170,6 +170,7 @@ public class WarriorEnemyBehavior : MonoBehaviour {
     }
 
     private void ExitAttackingState() {
+        animator.SetBool("Attacking", false);
         attackEndTime = Time.time;
     }
 

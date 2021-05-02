@@ -144,6 +144,7 @@ public class BasicEnemyBehavior : MonoBehaviour {
     }
 
     private void ExitAttackingState() {
+        animator.SetBool("Attacking", false);
         attackEndTime = Time.time;
     }
 

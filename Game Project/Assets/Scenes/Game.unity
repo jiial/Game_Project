@@ -7365,7 +7365,8 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Try grabbing the key from the guard using your telekinesis powers to escape
-    from the cage
+    from the cage. You can also grab enemies and other objects once you are free
+    and no longer drainged by the magic of the cage.
 --- !u!222 &1210338486
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15146,6 +15147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1795310082}
   - component: {fileID: 1795310081}
+  - component: {fileID: 1795310083}
   m_Layer: 10
   m_Name: Rock (1)
   m_TagString: Untagged
@@ -15218,6 +15220,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -49.15}
+--- !u!58 &1795310083
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795310080}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.20310777, y: -0.24047299}
+  serializedVersion: 2
+  m_Radius: 2.03323
 --- !u!1 &1798934782
 GameObject:
   m_ObjectHideFlags: 0

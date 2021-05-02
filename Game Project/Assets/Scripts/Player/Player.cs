@@ -66,7 +66,7 @@ public class Player : MonoBehaviour {
             } else {
                 return;
             }
-        } else if (transform.position.x > 200.0f && GameObject.FindGameObjectsWithTag("Enemy").Length == 0) {
+        } else if (transform.position.x > 180.0f && GameObject.FindGameObjectsWithTag("Enemy").Length == 0) {
             // If gone through the map and no more enemies, the game is over and you have won
             // Game over, open menu
             GameObject.Find("Canvas").GetComponent<GameOverMenu>().EnterMenu(true);
