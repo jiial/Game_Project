@@ -2,7 +2,7 @@
 
 A game for the Game Project -course.
 
-This is a action 2D platformer built using the Unity game engine. The basic idea of the game is to fight your way through the level using your sword and "demonic" telekinesis powers.
+This is a 2D action platformer built using the Unity game engine. The basic idea of the game is to fight your way through the level using your sword and "demonic" telekinesis powers.
 
 The game has two scenes: a main menu and a playable demo level.
 The game scene consists of a player, some enemies, interactable objects, the environment, a camera, a particle system, as well as its own Pause- and Game Over -menu screens.
