@@ -17,5 +17,14 @@ The Movable object is a simple interface that determines which objects in the sc
 In addition it contains the Drag-script component that makes the drag point follow the player's mouse position. When the player clicks on a movable object, the script creates a new FixedJoint-component, that together with the existing hinge joint in the DragPoint-object make the attached target object follow the drag point, and therefore the mouse position, in a "smooth" way.
 Another interesting thing was the implementation of the flying enemies. The main "trick" here was freezing their Y-position to keep them in air instead of them falling straight down. I've since learned that giving them a gravity scale of 0 would have likely been a better and simpler solution.
 
-The total work time is hard to estimate since I didn't keep track of it, but I can say for certain that I've spent more time on this course than most 5 credit University courses. I'm guessing the total time is somewhere between 120 and 180 hours, even though the game doesn't look like much.
+The total work time is hard to estimate since I didn't keep track of it, but I can say for certain that I've spent more time on this course than most 5 credit University courses. I'm guessing the total time is somewhere between 140 and 180 hours, even though the game doesn't look like much.
 Coming up with the concept, battling with all kinds of bugs and weird issues, designing/implementing the graphics and all the research on how to use Unity and implement some core functionality was more time consuming than I initially thought, and in the end the project ended up being more like a proof of concept than a game.
+
+
+**Some known issues**
+<ul>
+<li>After completing the level and choosing to play again the game might freeze, so you might need to restart to play again.</li>
+<li>Enemy movement is sometimes "buggy", e.g. fast movements, appearing inside colliders (ground), "sliding" on the ground or moving back and forth around the player</li>
+<li>Small graphical bugs</li>
+<li>Moving against a wall while jumping can make the player "levitate" on that spot</li>
+</ul>
