@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameOverMenu : Menu {
 
-    public static bool isOver;
+    public bool isOver;
 
     public GameObject gameOverMenuUI;
 

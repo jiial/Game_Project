@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : Menu {
 
-    public static bool isPaused;
+    public bool isPaused;
 
     public GameObject pauseMenuUI;
 

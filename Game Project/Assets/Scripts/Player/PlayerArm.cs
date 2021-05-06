@@ -18,7 +18,7 @@ public class PlayerArm : MonoBehaviour {
     }
 
     void Update() {
-        if (PauseMenu.isPaused || GameOverMenu.isOver) {
+        if (GameObject.Find("Canvas").GetComponent<PauseMenu>().isPaused || GameObject.Find("Canvas").GetComponent<GameOverMenu>().isOver) {
             return;
         }
         // Update arm position according to the position of the player

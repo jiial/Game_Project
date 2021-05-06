@@ -41,6 +41,7 @@ public class Player : MonoBehaviour {
     public CombatStyle currentStyle = CombatStyle.TELEKINESIS;
 
     void Awake() {
+        Time.timeScale = 1f;
         body = GetComponent<Rigidbody2D>();
         body.freezeRotation = true;
         arm = transform.Find("Arm").GetComponent<PlayerArm>();
