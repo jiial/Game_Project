@@ -23,7 +23,6 @@ Coming up with the concept, battling with all kinds of bugs and weird issues, de
 
 **Some known issues**
 <ul>
-<li>After completing the level and choosing to play again the game might freeze, so you might need to restart to play again.</li>
 <li>Enemy movement is sometimes "buggy", e.g. fast movements, appearing inside colliders (ground), "sliding" on the ground or moving back and forth around the player</li>
 <li>Small graphical bugs</li>
 <li>Moving against a wall while jumping can make the player "levitate" on that spot</li>
